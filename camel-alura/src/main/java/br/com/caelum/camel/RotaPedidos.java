@@ -16,7 +16,9 @@ public class RotaPedidos {
 			public void configure() throws Exception {
 				from("file:pedidos?delay=5s&noop=true")
 					.log("${id} - ${body}")
+					.marshal().xmljson()
 					.log("${exchange.pattern}")
+					.setHeader("CamelFileName", simple("${file:name.noext}.json"))
 					.to("file:saida");
 			}
 		});
