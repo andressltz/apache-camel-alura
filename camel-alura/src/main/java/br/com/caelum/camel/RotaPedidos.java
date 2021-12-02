@@ -18,10 +18,14 @@ public class RotaPedidos {
 			public void configure() throws Exception {
 				from("file:pedidos?delay=5s&noop=true")
 					.routeId("rota-pedidos")
-					.to("seda:soap")
-					.to("seda:http");
+					.multicast()
+//					.parallelProcessing().timeout(500)
+					.to("direct:soap")
+					.to("direct:http");
+//					.to("seda:soap")
+//					.to("seda:http");
 
-				from("seda:http")
+				from("direct:http")
 					.routeId("rota-http")
 					.setProperty("pedidoId", xpath("/pedido/id/text()"))
 					.setProperty("clientId", xpath("/pedido/pagamento/email-titular/text()"))
@@ -29,15 +33,17 @@ public class RotaPedidos {
 					.filter().xpath("/item/formato[text()='EBOOK']")
 					.setProperty("ebookId", xpath("/item/livro/codigo/text()"))
 					.marshal().xmljson()
-					.log("${id} - ${body}")
+//					.log("${id} - ${body}")
 					.setHeader(Exchange.HTTP_METHOD, HttpMethods.GET)
 					.setHeader(Exchange.HTTP_QUERY, simple("clienteId=${property.clientId}&pedidoId=${property.pedidoId}&ebookId=${property.ebookId}"))
 					.to("http4://localhost:8080/webservices/ebook/item");
 
-				from("seda:soap")
+				from("direct:soap")
 					.routeId("rota-soap")
-					.log("SOAP mock: ${body}")
-					.to("mock:soap");
+					.to("xslt:pedido-para-soap.xslt")
+					.log("${body}")
+					.setHeader(Exchange.CONTENT_TYPE, constant("text/xml"))
+					.to("http4://localhost:8080/webservices/financeiro");
 			}
 		});
 
