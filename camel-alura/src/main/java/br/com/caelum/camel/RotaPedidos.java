@@ -2,6 +2,7 @@ package br.com.caelum.camel;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.RoutesBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http4.HttpMethods;
@@ -16,14 +17,26 @@ public class RotaPedidos {
 
 			@Override
 			public void configure() throws Exception {
+				errorHandler(
+					deadLetterChannel("file:erro")
+						.maximumRedeliveries(3)
+						.redeliveryDelay(1000)
+						.onRedelivery(new Processor() {
+							@Override
+							public void process(Exchange exchange) throws Exception {
+								int counter = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_COUNTER);
+								int max = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_MAX_COUNTER);
+								System.out.println("Redelivery - " + counter + "/" + max );
+							}
+						})
+				);
+
 				from("file:pedidos?delay=5s&noop=true")
 					.routeId("rota-pedidos")
-					.multicast()
-//					.parallelProcessing().timeout(500)
-					.to("direct:soap")
-					.to("direct:http");
-//					.to("seda:soap")
-//					.to("seda:http");
+					.to("validator:pedido.xsd");
+//					.multicast()
+//					.to("direct:soap")
+//					.to("direct:http");
 
 				from("direct:http")
 					.routeId("rota-http")
@@ -48,6 +61,6 @@ public class RotaPedidos {
 		});
 
 		context.start();
-		Thread.sleep(2000);
+		Thread.sleep(10000);
 	}
 }
