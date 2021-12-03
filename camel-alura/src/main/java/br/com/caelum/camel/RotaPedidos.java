@@ -17,19 +17,33 @@ public class RotaPedidos {
 
 			@Override
 			public void configure() throws Exception {
-				errorHandler(
-					deadLetterChannel("file:erro")
-						.maximumRedeliveries(3)
-						.redeliveryDelay(1000)
-						.onRedelivery(new Processor() {
-							@Override
-							public void process(Exchange exchange) throws Exception {
-								int counter = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_COUNTER);
-								int max = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_MAX_COUNTER);
-								System.out.println("Redelivery - " + counter + "/" + max );
-							}
-						})
-				);
+				onException(Exception.class)
+					.handled(true)
+					.maximumRedeliveries(3)
+					.redeliveryDelay(1000)
+					.onRedelivery(new Processor() {
+						@Override
+						public void process(Exchange exchange) throws Exception {
+							int counter = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_COUNTER);
+							int max = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_MAX_COUNTER);
+							System.out.println("Redelivery - " + counter + "/" + max );;
+						}
+					})
+					.to("file:error-parsing");
+
+//				errorHandler(
+//					deadLetterChannel("file:erro")
+//						.maximumRedeliveries(3)
+//						.redeliveryDelay(1000)
+//						.onRedelivery(new Processor() {
+//							@Override
+//							public void process(Exchange exchange) throws Exception {
+//								int counter = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_COUNTER);
+//								int max = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_MAX_COUNTER);
+//								System.out.println("Redelivery - " + counter + "/" + max );
+//							}
+//						})
+//				);
 
 				from("file:pedidos?delay=5s&noop=true")
 					.routeId("rota-pedidos")
