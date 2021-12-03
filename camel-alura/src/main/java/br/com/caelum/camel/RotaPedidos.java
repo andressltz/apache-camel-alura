@@ -1,5 +1,6 @@
 package br.com.caelum.camel;
 
+import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -13,44 +14,47 @@ public class RotaPedidos {
 	public static void main(String[] args) throws Exception {
 
 		CamelContext context = new DefaultCamelContext();
+		context.addComponent("activemq", ActiveMQComponent.activeMQComponent("tcp://localhost:61616"));
 		context.addRoutes(new RouteBuilder() {
 
 			@Override
 			public void configure() throws Exception {
-				onException(Exception.class)
-					.handled(true)
-					.maximumRedeliveries(3)
-					.redeliveryDelay(1000)
-					.onRedelivery(new Processor() {
-						@Override
-						public void process(Exchange exchange) throws Exception {
-							int counter = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_COUNTER);
-							int max = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_MAX_COUNTER);
-							System.out.println("Redelivery - " + counter + "/" + max );;
-						}
-					})
-					.to("file:error-parsing");
+//				onException(Exception.class)
+//					.handled(true)
+//					.maximumRedeliveries(3)
+//					.redeliveryDelay(1000)
+//					.onRedelivery(new Processor() {
+//						@Override
+//						public void process(Exchange exchange) throws Exception {
+//							int counter = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_COUNTER);
+//							int max = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_MAX_COUNTER);
+//							System.out.println("Redelivery - " + counter + "/" + max );;
+//						}
+//					})
+//					.to("file:error-parsing");
 
-//				errorHandler(
-//					deadLetterChannel("file:erro")
-//						.maximumRedeliveries(3)
-//						.redeliveryDelay(1000)
-//						.onRedelivery(new Processor() {
-//							@Override
-//							public void process(Exchange exchange) throws Exception {
-//								int counter = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_COUNTER);
-//								int max = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_MAX_COUNTER);
-//								System.out.println("Redelivery - " + counter + "/" + max );
-//							}
-//						})
-//				);
+				errorHandler(
+					deadLetterChannel("activemq:queue:pedidos.DLQ")
+						.logExhaustedMessageHistory(true)
+						.maximumRedeliveries(3)
+						.redeliveryDelay(1000)
+						.onRedelivery(new Processor() {
+							@Override
+							public void process(Exchange exchange) throws Exception {
+								int counter = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_COUNTER);
+								int max = (int) exchange.getIn().getHeader(Exchange.REDELIVERY_MAX_COUNTER);
+								System.out.println("Redelivery - " + counter + "/" + max );
+							}
+						})
+				);
 
-				from("file:pedidos?delay=5s&noop=true")
+				from("activemq:queue:pedidos")
+					.log("${file:name}")
 					.routeId("rota-pedidos")
-					.to("validator:pedido.xsd");
-//					.multicast()
-//					.to("direct:soap")
-//					.to("direct:http");
+					.to("validator:pedido.xsd")
+					.multicast()
+					.to("direct:soap")
+					.to("direct:http");
 
 				from("direct:http")
 					.routeId("rota-http")

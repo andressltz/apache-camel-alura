@@ -1,0 +1,40 @@
+2021-12-02 22:56:07,560 | INFO  | Refreshing org.apache.activemq.xbean.XBeanBrokerFactory$1@6e9175d8: startup date [Thu Dec 02 22:56:07 BRT 2021]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | main
+2021-12-02 22:56:08,385 | INFO  | Using Persistence Adapter: KahaDBPersistenceAdapter[C:\dev\cwi\projeto-camel-alura\apache-activemq-5.16.3\bin\..\data\kahadb] | org.apache.activemq.broker.BrokerService | main
+2021-12-02 22:56:08,974 | INFO  | PListStore:[C:\dev\cwi\projeto-camel-alura\apache-activemq-5.16.3\bin\..\data\localhost\tmp_storage] started | org.apache.activemq.store.kahadb.plist.PListStoreImpl | main
+2021-12-02 22:56:09,105 | INFO  | Apache ActiveMQ 5.16.3 (localhost, ID:NB-004669-57748-1638496568981-0:1) is starting | org.apache.activemq.broker.BrokerService | main
+2021-12-02 22:56:09,124 | INFO  | Listening for connections at: tcp://NB-004669:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2021-12-02 22:56:09,134 | INFO  | Connector openwire started | org.apache.activemq.broker.TransportConnector | main
+2021-12-02 22:56:09,137 | INFO  | Listening for connections at: amqp://NB-004669:5672?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2021-12-02 22:56:09,140 | INFO  | Connector amqp started | org.apache.activemq.broker.TransportConnector | main
+2021-12-02 22:56:09,143 | INFO  | Listening for connections at: stomp://NB-004669:61613?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2021-12-02 22:56:09,144 | INFO  | Connector stomp started | org.apache.activemq.broker.TransportConnector | main
+2021-12-02 22:56:09,149 | INFO  | Listening for connections at: mqtt://NB-004669:1883?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.TransportServerThreadSupport | main
+2021-12-02 22:56:09,151 | INFO  | Connector mqtt started | org.apache.activemq.broker.TransportConnector | main
+2021-12-02 22:56:09,158 | INFO  | Starting Jetty server | org.apache.activemq.transport.WebTransportServerSupport | main
+2021-12-02 22:56:09,237 | INFO  | Creating Jetty connector | org.apache.activemq.transport.WebTransportServerSupport | main
+2021-12-02 22:56:09,357 | WARN  | ServletContext@o.e.j.s.ServletContextHandler@76f856a8{/,null,STARTING} has uncovered http methods for path: / | org.eclipse.jetty.security.SecurityHandler | main
+2021-12-02 22:56:09,411 | INFO  | Listening for connections at ws://NB-004669:61614?maximumConnections=1000&wireFormat.maxFrameSize=104857600 | org.apache.activemq.transport.ws.WSTransportServer | main
+2021-12-02 22:56:09,412 | INFO  | Connector ws started | org.apache.activemq.broker.TransportConnector | main
+2021-12-02 22:56:09,414 | INFO  | Apache ActiveMQ 5.16.3 (localhost, ID:NB-004669-57748-1638496568981-0:1) started | org.apache.activemq.broker.BrokerService | main
+2021-12-02 22:56:09,415 | INFO  | For help or more information please see: http://activemq.apache.org | org.apache.activemq.broker.BrokerService | main
+2021-12-02 22:56:09,418 | WARN  | Store limit is 102400 mb (current store usage is 0 mb). The data directory: C:\dev\cwi\projeto-camel-alura\apache-activemq-5.16.3\bin\..\data\kahadb only has 12511 mb of usable space. - resetting to maximum available disk space: 12511 mb | org.apache.activemq.broker.BrokerService | main
+2021-12-02 22:56:09,420 | WARN  | Temporary Store limit is 51200 mb (current store usage is 0 mb). The data directory: C:\dev\cwi\projeto-camel-alura\apache-activemq-5.16.3\bin\..\data only has 12511 mb of usable space. - resetting to maximum available disk space: 12511 mb | org.apache.activemq.broker.BrokerService | main
+2021-12-02 22:56:10,174 | INFO  | ActiveMQ WebConsole available at http://127.0.0.1:8161/ | org.apache.activemq.web.WebConsoleStarter | main
+2021-12-02 22:56:10,175 | INFO  | ActiveMQ Jolokia REST API available at http://127.0.0.1:8161/api/jolokia/ | org.apache.activemq.web.WebConsoleStarter | main
+2021-12-02 22:57:22,527 | INFO  | Connector vm://localhost started | org.apache.activemq.broker.TransportConnector | qtp2047147687-36
+2021-12-02 23:11:46,539 | INFO  | Apache ActiveMQ 5.16.3 (localhost, ID:NB-004669-57748-1638496568981-0:1) is shutting down | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,541 | INFO  | socketQueue interrupted - stopping | org.apache.activemq.transport.tcp.TcpTransportServer | ActiveMQ Transport Server Thread Handler: tcp://0.0.0.0:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600
+2021-12-02 23:11:46,541 | INFO  | Connector openwire stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,542 | INFO  | Could not accept connection during shutdown  : null (null) | org.apache.activemq.broker.TransportConnector | ActiveMQ Transport Server Thread Handler: tcp://0.0.0.0:61616?maximumConnections=1000&wireFormat.maxFrameSize=104857600
+2021-12-02 23:11:46,543 | INFO  | Connector amqp stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,545 | INFO  | Connector stomp stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,545 | INFO  | Connector mqtt stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,550 | INFO  | Connector ws stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,552 | INFO  | Connector vm://localhost stopped | org.apache.activemq.broker.TransportConnector | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,554 | INFO  | PListStore:[C:\dev\cwi\projeto-camel-alura\apache-activemq-5.16.3\bin\..\data\localhost\tmp_storage] stopped | org.apache.activemq.store.kahadb.plist.PListStoreImpl | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,554 | INFO  | Stopping async queue tasks | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,554 | INFO  | Stopping async topic tasks | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,555 | INFO  | Stopped KahaDB | org.apache.activemq.store.kahadb.KahaDBStore | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,579 | INFO  | Apache ActiveMQ 5.16.3 (localhost, ID:NB-004669-57748-1638496568981-0:1) uptime 15 minutes | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,581 | INFO  | Apache ActiveMQ 5.16.3 (localhost, ID:NB-004669-57748-1638496568981-0:1) is shutdown | org.apache.activemq.broker.BrokerService | ActiveMQ ShutdownHook
+2021-12-02 23:11:46,583 | INFO  | Closing org.apache.activemq.xbean.XBeanBrokerFactory$1@6e9175d8: startup date [Thu Dec 02 22:56:07 BRT 2021]; root of context hierarchy | org.apache.activemq.xbean.XBeanBrokerFactory$1 | ActiveMQ ShutdownHook
